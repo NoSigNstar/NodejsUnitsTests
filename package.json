@@ -1,0 +1,17 @@
+{
+  "name": "unit",
+  "version": "1.0.0",
+  "description": "Tp-test unitaire",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "express": "^4.16.2",
+    "mocha": "^4.0.1"
+  }
+}
