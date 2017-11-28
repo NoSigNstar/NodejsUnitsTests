@@ -5,13 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha"
+    "test": "nyc mocha --recursive --timeout=3000"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chai": "^4.1.2",
     "express": "^4.16.2",
-    "mocha": "^4.0.1"
+    "istanbul": "^0.4.5",
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0",
+    "supertest": "^3.0.0"
   }
 }
