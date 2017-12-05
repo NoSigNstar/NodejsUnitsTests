@@ -1,5 +1,6 @@
 const routes = require('express').Router();
 const Model = require('../lib/Model');
+const _ = require('lodash');
 
 
 /**
@@ -10,9 +11,8 @@ routes.route('/:listId/items')
     .get((req, res) => {
         let response;
         const list = Model.getList(req.params.listId, (list) => {
-            list.updated_at = new Date(); // Dummy modifications
+            list.updated_at = new Date();
         });
-
         if (!list) {
             response = { error: "The list wasn't found" }
             res.status(404);
@@ -29,9 +29,8 @@ routes.route('/:listId/items')
  */
 routes.route('/create')
     .post((req, res) => {
-        response = {};
+        let response = {};
         const { name, listId } = req.body;
-
         if (!name || !listId) {
             res.status(400);
             response.error = "Missing parameters";
@@ -48,7 +47,6 @@ routes.route('/create')
 routes.route('/:id')
     .put((req, res) => {
         let response = Model.getItem(req.params.id);
-
         if (!response) {
             res.status(404);
             response = { error: 'Item not found' };
@@ -56,19 +54,31 @@ routes.route('/:id')
             res.status(200);
             response.marked = 'ITEM MARKED';
         }
-
         res.json(response);
     })
     .delete((req, res) => {
-        res.status(200);
-        res.json(true);
-        // DELETE AN ITEM FROM LIST
-        // PARAMS = LISTNAME, ITEMUUID
+        const item = Model.getItem(req.params.id);
+        if (item) {
+            res.status(200);
+            res.json(item);
+        } else {
+            res.status(404);
+            res.json({ error: 'Items not found - 404' });
+        }
     });
 
+/**
+ * Wrong path bas function
+ */
+const notFound = (req, res) => {
+    res.status(404)
+    res.json({ error: '404 - NOT FOUND' });
+}
+
 routes.route('/*')
-    .get((req, res) => {
-        res.json({ n: 'not found' });
-    });
+    .get(notFound)
+    .post(notFound)
+    .put(notFound)
+    .delete(notFound)
 
 module.exports = routes;

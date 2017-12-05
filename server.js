@@ -14,7 +14,8 @@ app.use('/list', listApi);
 app.use('/item', itemApi);
 
 app.get('/', function (req, res) {
-    res.json({ n: "noiq" })
+    res.status(404);
+    res.json({ error: "ERROR - 404 NOT FOUND" })
 });
 
 server.listen(3000, function () { });
